@@ -43,7 +43,9 @@ test('stale task transition is rejected, refreshed, and does not duplicate histo
         })
       ).error,
     ).toBeNull();
+    const conflictResponse = page.waitForResponse('**/rpc/transition_task');
     await page.getByRole('button', { name: 'Взять в работу' }).click();
+    expect((await conflictResponse).status()).toBe(409);
     await expect(page.getByRole('alert')).toContainText('Задача изменена');
     await expect(
       page.getByRole('button', { name: 'Отправить на проверку' }),
@@ -151,7 +153,9 @@ test('background refresh preserves draft and cannot bypass optimistic edit versi
     await expect(page.getByLabel('Название задачи')).toHaveValue(
       'Мой несохранённый черновик',
     );
+    const conflictResponse = page.waitForResponse('**/rpc/update_task');
     await page.getByRole('button', { name: 'Сохранить задачу' }).click();
+    expect((await conflictResponse).status()).toBe(409);
     await expect(page.getByRole('alert')).toContainText('Задача изменена');
     const { data: task } = await manager
       .from('tasks')

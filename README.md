@@ -2,6 +2,8 @@
 
 Мини-CRM по тестовому заданию: постановщики управляют объектами и задачами, исполнители видят только свою работу. React + TypeScript + Vite, Tailwind, компоненты в стиле shadcn/ui на Radix, TanStack Query, React Hook Form, Zod и Supabase.
 
+[Открыть приложение](https://nastoiker.github.io/construction-crm-test/) · [Репозиторий](https://github.com/Nastoiker/construction-crm-test) · [CI](https://github.com/Nastoiker/construction-crm-test/actions/workflows/ci.yml)
+
 ## Запуск за несколько минут
 
 Нужны Docker и актуальный **Node 22 LTS (22.22+) или Node 24**. На Node 22.17 обнаружен сбой загрузчика ESM в Playwright; CI использует актуальный Node 22.
@@ -51,7 +53,7 @@ ESLint запрещает импорт из вышележащих FSD-слоё�
 
 `.github/workflows/ci.yml`: линтеры, типы, сборка, unit/SQL-тесты, аудит production-зависимостей; отдельный job поднимает Supabase и запускает Playwright. При ошибке сохраняются trace и HTML-отчёт.
 
-`.github/workflows/deploy.yml`: после успешного CI на `main` (или вручную) повторно проверяет выбранный commit, применяет миграции, отключает открытую регистрацию, собирает фронтенд и публикует GitHub Pages. Деплой активируется после настройки:
+`.github/workflows/deploy.yml`: после успешного CI на `main` публикует именно проверенный commit: применяет миграции, отключает открытую регистрацию, собирает фронтенд и публикует GitHub Pages. При ручном запуске сначала выполняет полный CI. Деплой активируется после настройки:
 
 | GitHub configuration | Значения                                                    |
 | -------------------- | ----------------------------------------------------------- |
@@ -64,3 +66,7 @@ ESLint запрещает импорт из вышележащих FSD-слоё�
 Альтернативный хостинг: `docker compose --env-file .env.local up --build -d`. Фронтенд с nginx доступен на порту 8080; параметры Supabase встраиваются при сборке. В production укажите публичный HTTPS URL Supabase и разместите nginx за HTTPS reverse proxy. `nginx.conf` поддерживает прямые переходы по маршрутам.
 
 Материалы сдачи: [объяснение руководителю](docs/for-manager.md), [решения](docs/decisions.md), [dev review](docs/dev-review.md), [QA review](docs/qa-review.md).
+
+Для проверки опубликованной версии задайте `E2E_BASE_URL` (с завершающим `/`) и `E2E_ENV_FILE` (путь к приватному файлу с `SUPABASE_URL`, `SUPABASE_ANON_KEY` и тестовыми аккаунтами), затем выполните `npm run test:e2e`. Тесты создают и удаляют собственные временные объекты и задачи. Пароли демо передаются отдельно.
+
+![Список объектов](docs/screenshots/objects.png)

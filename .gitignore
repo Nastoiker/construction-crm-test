@@ -12,3 +12,4 @@ coverage/
 *.tsbuildinfo
 artifacts/
 .tools/
+SUBMISSION.private.txt
