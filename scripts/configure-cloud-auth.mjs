@@ -1,5 +1,8 @@
 const token = process.env.SUPABASE_ACCESS_TOKEN;
 const ref = process.env.SUPABASE_PROJECT_REF;
+const appUrl = process.env.PUBLIC_APP_URL;
+if (appUrl && new URL(appUrl).protocol !== 'https:')
+  throw new Error('Public application URL must use HTTPS.');
 if (!token || !ref || !/^[a-z0-9]+$/.test(ref))
   throw new Error('Missing or invalid Supabase deployment configuration.');
 const response = await fetch(
@@ -13,6 +16,7 @@ const response = await fetch(
     body: JSON.stringify({
       disable_signup: true,
       external_anonymous_users_enabled: false,
+      ...(appUrl ? { site_url: appUrl, uri_allow_list: appUrl } : {}),
     }),
   },
 );

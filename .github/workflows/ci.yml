@@ -45,6 +45,7 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npx supabase start
+      - run: npx supabase db lint --level error
       - run: node scripts/local-env.mjs
       - run: npm run seed
       - run: npm run test:e2e

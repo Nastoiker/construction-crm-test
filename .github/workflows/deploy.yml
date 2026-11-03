@@ -14,16 +14,21 @@ permissions:
   contents: read
 
 jobs:
-  # Manual deployments also run the same checks before touching production.
+  # Automatic deployment reuses the successful CI result for the exact SHA.
+  # A manual deployment must run CI first.
   verify:
-    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
+    if: github.event_name == 'workflow_dispatch'
     uses: ./.github/workflows/ci.yml
     with:
       ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
   build:
     needs: verify
-    if: vars.SUPABASE_URL != '' && vars.SUPABASE_ANON_KEY != '' && vars.SUPABASE_PROJECT_REF != ''
+    if: >-
+      always() &&
+      ((github.event_name == 'workflow_dispatch' && needs.verify.result == 'success') ||
+       (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')) &&
+      vars.SUPABASE_URL != '' && vars.SUPABASE_ANON_KEY != '' && vars.SUPABASE_PROJECT_REF != ''
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment: production
@@ -41,6 +46,7 @@ jobs:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
           SUPABASE_PROJECT_REF: ${{ vars.SUPABASE_PROJECT_REF }}
+          PUBLIC_APP_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
         run: |
           npx supabase link --project-ref "$SUPABASE_PROJECT_REF" --yes
           npx supabase db push --remote --yes
