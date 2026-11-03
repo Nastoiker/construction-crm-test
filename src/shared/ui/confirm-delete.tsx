@@ -54,7 +54,7 @@ export function ConfirmDelete({
             {description}
           </AlertDialog.Description>
           {error != null && <ErrorNotice error={error} />}
-          <div className="mt-6 flex justify-end gap-3">
+          <div className="mt-6 flex flex-col-reverse justify-end gap-3 sm:flex-row">
             <AlertDialog.Cancel asChild>
               <Button variant="outline" disabled={pending}>
                 Отмена

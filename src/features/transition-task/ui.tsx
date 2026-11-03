@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Check, Play, Send, Undo2 } from 'lucide-react';
 import {
   availableTransitions,
@@ -26,6 +26,7 @@ export function TaskActions({
 }) {
   const [comment, setComment] = useState('');
   const [validation, setValidation] = useState('');
+  const commentRef = useRef<HTMLTextAreaElement>(null);
   const transitions = availableTransitions(task, profile.role, profile.id);
   const mutation = useAction(
     async (status: TaskStatus) => {
@@ -54,6 +55,7 @@ export function TaskActions({
   function transition(status: TaskStatus) {
     if (status === 'rework' && !comment.trim()) {
       setValidation('Укажите причину доработки');
+      commentRef.current?.focus();
       return;
     }
     setValidation('');
@@ -72,10 +74,12 @@ export function TaskActions({
       >
         <Textarea
           id="transition-comment"
+          ref={commentRef}
           value={comment}
           onChange={(event) => setComment(event.target.value)}
           maxLength={2000}
           aria-invalid={!!validation}
+          aria-describedby={validation ? 'transition-comment-error' : undefined}
           placeholder="Добавьте детали для коллег"
         />
       </Field>

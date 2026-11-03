@@ -29,6 +29,12 @@ export function AppShell() {
     );
   return (
     <div className="min-h-screen">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-white focus:p-3"
+      >
+        К содержимому
+      </a>
       <header className="border-b bg-white">
         <div className="mx-auto flex max-w-[1328px] flex-wrap items-center justify-between gap-4 px-5 py-5 sm:px-8">
           <Link to="/objects" aria-label="Стройка — главная">
@@ -68,7 +74,11 @@ export function AppShell() {
           )}
         </nav>
       </header>
-      <main className="mx-auto max-w-[1328px] px-5 py-8 sm:px-8 sm:py-10">
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="mx-auto max-w-[1328px] px-5 py-8 [overflow-wrap:anywhere] sm:px-8 sm:py-10"
+      >
         {error != null && <ErrorNotice error={error} />}
         <Outlet />
       </main>

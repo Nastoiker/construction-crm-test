@@ -1,0 +1,225 @@
+[
+  {
+    "startedAt": "2026-11-03T11:42:54.746Z",
+    "environment": "local",
+    "host": "127.0.0.1",
+    "node": "v22.17.1",
+    "model": "closed-loop; 30 requests per worker per stage; 150ms think time",
+    "fixtureCount": 100,
+    "thresholds": {
+      "readP95Ms": 2000,
+      "writeP95Ms": 3000,
+      "unexpectedErrors": 0
+    },
+    "stages": [
+      {
+        "label": "reads-1",
+        "concurrency": 1,
+        "requests": 30,
+        "unexpectedErrors": 0,
+        "elapsedMs": 4772,
+        "requestsPerSecond": 6.29,
+        "p50Ms": 4,
+        "p95Ms": 7,
+        "p99Ms": 8,
+        "maxMs": 8
+      },
+      {
+        "label": "reads-10",
+        "concurrency": 10,
+        "requests": 300,
+        "unexpectedErrors": 0,
+        "elapsedMs": 4770,
+        "requestsPerSecond": 62.89,
+        "p50Ms": 3,
+        "p95Ms": 7,
+        "p99Ms": 58,
+        "maxMs": 60
+      },
+      {
+        "label": "reads-25",
+        "concurrency": 25,
+        "requests": 750,
+        "unexpectedErrors": 0,
+        "elapsedMs": 4912,
+        "requestsPerSecond": 152.68,
+        "p50Ms": 6,
+        "p95Ms": 15,
+        "p99Ms": 22,
+        "maxMs": 25
+      },
+      {
+        "label": "writes-10",
+        "concurrency": 10,
+        "requests": 30,
+        "unexpectedErrors": 0,
+        "elapsedMs": 31,
+        "requestsPerSecond": 957.16,
+        "p50Ms": 6,
+        "p95Ms": 14,
+        "p99Ms": 15,
+        "maxMs": 15
+      },
+      {
+        "label": "race-10",
+        "concurrency": 10,
+        "requests": 10,
+        "unexpectedErrors": 0,
+        "elapsedMs": 14,
+        "requestsPerSecond": 732.74,
+        "p50Ms": 7,
+        "p95Ms": 8,
+        "p99Ms": 8,
+        "maxMs": 8,
+        "successes": 1,
+        "expectedConflicts": 9,
+        "historyEvents": 2
+      }
+    ],
+    "passed": true,
+    "cleanup": "Temporary object/tasks soft-deleted; immutable history retained by application design.",
+    "finishedAt": "2026-11-03T11:43:10.146Z",
+    "measuredRequests": 1120
+  },
+  {
+    "startedAt": "2026-11-03T11:43:38.773Z",
+    "environment": "cloud",
+    "host": "fhnhgrmeljbrrclueelc.supabase.co",
+    "node": "v22.17.1",
+    "model": "closed-loop; 30 requests per worker per stage; 150ms think time",
+    "fixtureCount": 20,
+    "thresholds": {
+      "readP95Ms": 2000,
+      "writeP95Ms": 3000,
+      "unexpectedErrors": 0
+    },
+    "stages": [
+      {
+        "label": "reads-1",
+        "concurrency": 1,
+        "requests": 30,
+        "unexpectedErrors": 0,
+        "elapsedMs": 8253,
+        "requestsPerSecond": 3.64,
+        "p50Ms": 108,
+        "p95Ms": 135,
+        "p99Ms": 305,
+        "maxMs": 305
+      },
+      {
+        "label": "reads-5",
+        "concurrency": 5,
+        "requests": 150,
+        "unexpectedErrors": 0,
+        "elapsedMs": 9219,
+        "requestsPerSecond": 16.27,
+        "p50Ms": 113,
+        "p95Ms": 286,
+        "p99Ms": 425,
+        "maxMs": 434
+      },
+      {
+        "label": "reads-10",
+        "concurrency": 10,
+        "requests": 300,
+        "unexpectedErrors": 0,
+        "elapsedMs": 8813,
+        "requestsPerSecond": 34.04,
+        "p50Ms": 108,
+        "p95Ms": 211,
+        "p99Ms": 398,
+        "maxMs": 509
+      },
+      {
+        "label": "writes-10",
+        "concurrency": 10,
+        "requests": 30,
+        "unexpectedErrors": 0,
+        "elapsedMs": 1375,
+        "requestsPerSecond": 21.81,
+        "p50Ms": 116,
+        "p95Ms": 595,
+        "p99Ms": 727,
+        "maxMs": 727
+      },
+      {
+        "label": "race-10",
+        "concurrency": 10,
+        "requests": 10,
+        "unexpectedErrors": 0,
+        "elapsedMs": 386,
+        "requestsPerSecond": 25.89,
+        "p50Ms": 110,
+        "p95Ms": 136,
+        "p99Ms": 136,
+        "maxMs": 136,
+        "successes": 1,
+        "expectedConflicts": 9,
+        "historyEvents": 2
+      }
+    ],
+    "passed": true,
+    "cleanup": "Temporary object/tasks soft-deleted; immutable history retained by application design.",
+    "finishedAt": "2026-11-03T11:44:11.234Z",
+    "measuredRequests": 520
+  },
+  {
+    "startedAt": "2026-11-03T11:44:39.107Z",
+    "environment": "cloud",
+    "host": "fhnhgrmeljbrrclueelc.supabase.co",
+    "node": "v22.17.1",
+    "model": "closed-loop; 240 requests per worker per stage; 150ms think time",
+    "sustained": true,
+    "fixtureCount": 20,
+    "thresholds": {
+      "readP95Ms": 2000,
+      "writeP95Ms": 3000,
+      "unexpectedErrors": 0
+    },
+    "stages": [
+      {
+        "label": "reads-10",
+        "concurrency": 10,
+        "requests": 2400,
+        "unexpectedErrors": 0,
+        "elapsedMs": 65501,
+        "requestsPerSecond": 36.64,
+        "p50Ms": 103,
+        "p95Ms": 145,
+        "p99Ms": 280,
+        "maxMs": 1249
+      },
+      {
+        "label": "writes-10",
+        "concurrency": 10,
+        "requests": 30,
+        "unexpectedErrors": 0,
+        "elapsedMs": 843,
+        "requestsPerSecond": 35.59,
+        "p50Ms": 116,
+        "p95Ms": 285,
+        "p99Ms": 416,
+        "maxMs": 416
+      },
+      {
+        "label": "race-10",
+        "concurrency": 10,
+        "requests": 10,
+        "unexpectedErrors": 0,
+        "elapsedMs": 558,
+        "requestsPerSecond": 17.92,
+        "p50Ms": 124,
+        "p95Ms": 349,
+        "p99Ms": 349,
+        "maxMs": 349,
+        "successes": 1,
+        "expectedConflicts": 9,
+        "historyEvents": 2
+      }
+    ],
+    "passed": true,
+    "cleanup": "Temporary object/tasks soft-deleted; immutable history retained by application design.",
+    "finishedAt": "2026-11-03T11:45:49.437Z",
+    "measuredRequests": 2440
+  }
+]

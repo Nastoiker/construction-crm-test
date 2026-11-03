@@ -54,8 +54,8 @@ export function ObjectDetailsPage() {
           <p className="eyebrow">Карточка объекта</p>
           <h1>{object.data.name}</h1>
           <p className="subtitle flex items-center gap-2">
-            <MapPin size={16} />
-            {object.data.address}
+            <MapPin size={16} className="shrink-0" />
+            <span className="min-w-0">{object.data.address}</span>
           </p>
         </div>
         {profile?.role === 'manager' && (
@@ -83,7 +83,7 @@ export function ObjectDetailsPage() {
           onDone={() => setEditing(false)}
         />
       )}
-      <div className="mb-5 flex items-center justify-between">
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-lg font-semibold">
           Задачи объекта{' '}
           <span className="ml-2 text-sm font-normal text-muted-foreground">

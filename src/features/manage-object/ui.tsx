@@ -62,6 +62,7 @@ export function ObjectForm({
           id="object-name"
           maxLength={150}
           aria-invalid={!!errors.name}
+          aria-describedby={errors.name ? 'object-name-error' : undefined}
           {...register('name')}
         />
       </Field>
@@ -74,6 +75,7 @@ export function ObjectForm({
           id="object-address"
           maxLength={300}
           aria-invalid={!!errors.address}
+          aria-describedby={errors.address ? 'object-address-error' : undefined}
           {...register('address')}
         />
       </Field>

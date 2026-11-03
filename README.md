@@ -28,6 +28,7 @@ npm run dev
 npm run check                 # ESLint, Prettier, TypeScript, build, unit, SQL security
 npx playwright install chromium
 npm run test:e2e              # настоящий локальный Supabase + Chromium + axe
+npm run test:load             # ограниченная локальная HTTP-нагрузка
 npm audit --omit=dev
 ```
 
@@ -66,6 +67,8 @@ ESLint запрещает импорт из вышележащих FSD-слоё�
 Альтернативный хостинг: `docker compose --env-file .env.local up --build -d`. Фронтенд с nginx доступен на порту 8080; параметры Supabase встраиваются при сборке. В production укажите публичный HTTPS URL Supabase и разместите nginx за HTTPS reverse proxy. `nginx.conf` поддерживает прямые переходы по маршрутам.
 
 Материалы сдачи: [объяснение руководителю](docs/for-manager.md), [решения](docs/decisions.md), [dev review](docs/dev-review.md), [QA review](docs/qa-review.md).
+
+Дополнительные проверки: [нагрузочные замеры и методика](docs/performance-review.md), [UI/UX review и исправления](docs/ui-ux-review.md). Нагрузочный скрипт использует временные данные и обычные тестовые аккаунты; облачный запуск требует явного `--remote`. В Playwright теперь 10 сценариев, включая регрессии узких экранов и доступности форм.
 
 Для проверки опубликованной версии задайте `E2E_BASE_URL` (с завершающим `/`) и `E2E_ENV_FILE` (путь к приватному файлу с `SUPABASE_URL`, `SUPABASE_ANON_KEY` и тестовыми аккаунтами), затем выполните `npm run test:e2e`. Тесты создают и удаляют собственные временные объекты и задачи. Пароли демо передаются отдельно.
 

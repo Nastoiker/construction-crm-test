@@ -85,6 +85,7 @@ export function TaskForm({
           id="task-title"
           maxLength={150}
           aria-invalid={!!errors.title}
+          aria-describedby={errors.title ? 'task-title-error' : undefined}
           {...register('title')}
         />
       </Field>
@@ -96,6 +97,10 @@ export function TaskForm({
         <Textarea
           id="task-description"
           maxLength={5000}
+          aria-invalid={!!errors.description}
+          aria-describedby={
+            errors.description ? 'task-description-error' : undefined
+          }
           {...register('description')}
         />
       </Field>
@@ -107,6 +112,9 @@ export function TaskForm({
         <Select
           id="task-assignee"
           aria-invalid={!!errors.assignee_id}
+          aria-describedby={
+            errors.assignee_id ? 'task-assignee-error' : undefined
+          }
           {...register('assignee_id')}
         >
           <option value="">Выберите исполнителя</option>

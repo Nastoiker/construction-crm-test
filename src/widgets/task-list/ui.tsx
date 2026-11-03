@@ -31,7 +31,12 @@ export function TaskList({ tasks }: { tasks: Task[] }) {
             <span className="rounded-lg bg-muted p-2 text-primary">
               <ClipboardList size={18} />
             </span>
-            <span className="truncate font-medium">{task.title}</span>
+            <span
+              className="min-w-0 font-medium md:truncate"
+              title={task.title}
+            >
+              {task.title}
+            </span>
           </span>
           <span className="text-sm text-muted-foreground">
             {profiles.data?.find((p) => p.id === task.assignee_id)

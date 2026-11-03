@@ -84,6 +84,12 @@ test('full lifecycle, rework reason, persistent history, reassignment and delete
   await expect(
     page.getByText('Укажите причину доработки', { exact: true }),
   ).toBeVisible();
+  await expect(
+    page.getByLabel('Комментарий (обязателен для доработки)'),
+  ).toBeFocused();
+  await expect(
+    page.getByLabel('Комментарий (обязателен для доработки)'),
+  ).toHaveAccessibleDescription('Укажите причину доработки');
   await page
     .getByLabel('Комментарий (обязателен для доработки)')
     .fill('Исправить примыкание у колонны');
