@@ -31,6 +31,6 @@ export function isVersionConflict(error: unknown): boolean {
     !!error &&
     typeof error === 'object' &&
     'code' in error &&
-    error.code === '40001'
+    (error.code === 'PT409' || error.code === '40001')
   );
 }
