@@ -106,3 +106,69 @@ test('login, objects and task views have no serious accessibility issues', async
     ),
   ).toBe(true);
 });
+
+test('background refresh preserves draft and cannot bypass optimistic edit version', async ({
+  page,
+}) => {
+  const manager = await api('MANAGER');
+  const executor = await api('EXECUTOR');
+  const { data: user } = await executor.auth.getUser();
+  const { data: objects } = await manager.from('objects').select('id').limit(1);
+  const { data: id, error } = await manager.rpc('create_task', {
+    p_title: `Edit conflict ${Date.now()}`,
+    p_description: '',
+    p_object_id: objects![0].id,
+    p_assignee_id: user.user!.id,
+  });
+  expect(error).toBeNull();
+  try {
+    await page.clock.install();
+    await signIn(page, 'MANAGER');
+    await page.goto(`/tasks/${id}`);
+    await page.getByRole('button', { name: 'Редактировать' }).click();
+    await page.getByLabel('Название задачи').fill('Мой несохранённый черновик');
+    expect(
+      (
+        await manager.rpc('update_task', {
+          p_id: id,
+          p_title: 'Правки другого постановщика',
+          p_description: 'Новое описание',
+          p_assignee_id: user.user!.id,
+          p_version: 1,
+        })
+      ).error,
+    ).toBeNull();
+    await page.clock.fastForward(16_000);
+    await page.evaluate(() =>
+      window.dispatchEvent(new Event('visibilitychange')),
+    );
+    await expect(
+      page.getByRole('heading', {
+        name: 'Правки другого постановщика',
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(page.getByLabel('Название задачи')).toHaveValue(
+      'Мой несохранённый черновик',
+    );
+    await page.getByRole('button', { name: 'Сохранить задачу' }).click();
+    await expect(page.getByRole('alert')).toContainText('Задача изменена');
+    const { data: task } = await manager
+      .from('tasks')
+      .select('title, description, version')
+      .eq('id', id)
+      .single();
+    expect(task).toEqual({
+      title: 'Правки другого постановщика',
+      description: 'Новое описание',
+      version: 2,
+    });
+  } finally {
+    const { data: task } = await manager
+      .from('tasks')
+      .select('version')
+      .eq('id', id)
+      .single();
+    await manager.rpc('delete_task', { p_id: id, p_version: task!.version });
+  }
+});

@@ -25,3 +25,12 @@ export function errorMessage(error: unknown): string {
   }
   return 'Не удалось выполнить действие. Попробуйте ещё раз.';
 }
+
+export function isVersionConflict(error: unknown): boolean {
+  return (
+    !!error &&
+    typeof error === 'object' &&
+    'code' in error &&
+    error.code === '40001'
+  );
+}

@@ -29,8 +29,11 @@ export function useProfile() {
         .select('*')
         .eq('id', session!.user.id)
         .single();
-      if (error)
-        throw new Error('Профиль не настроен. Обратитесь к администратору.');
+      if (error) {
+        if (error.code === 'PGRST116')
+          throw new Error('Профиль не настроен. Обратитесь к администратору.');
+        throw error;
+      }
       return profileSchema.parse(data);
     },
   });

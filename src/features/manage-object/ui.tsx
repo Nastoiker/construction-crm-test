@@ -1,9 +1,11 @@
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import type { ConstructionObject } from '@/entities/object';
 import { rpc } from '@/shared/api/client';
 import { useAction } from '@/shared/lib/use-action';
+import { isVersionConflict } from '@/shared/lib/utils';
 import { Button, Field, Input, ErrorNotice } from '@/shared/ui';
 
 const schema = z.object({
@@ -26,6 +28,7 @@ export function ObjectForm({
   object?: ConstructionObject;
   onDone: () => void;
 }) {
+  const [editVersion] = useState(object?.version ?? 1);
   const {
     register,
     handleSubmit,
@@ -38,7 +41,7 @@ export function ObjectForm({
     const args = { p_name: values.name, p_address: values.address };
     await rpc(
       object ? 'update_object' : 'create_object',
-      object ? { ...args, p_id: object.id, p_version: object.version } : args,
+      object ? { ...args, p_id: object.id, p_version: editVersion } : args,
     );
   }, onDone);
   return (
@@ -75,6 +78,12 @@ export function ObjectForm({
         />
       </Field>
       {mutation.error && <ErrorNotice error={mutation.error} />}
+      {isVersionConflict(mutation.error) && (
+        <p className="text-sm text-muted-foreground">
+          Ваши правки сохранены в форме. Скопируйте их при необходимости, затем
+          закройте форму и откройте снова для загрузки актуальных данных.
+        </p>
+      )}
       <div className="flex gap-3">
         <Button disabled={mutation.isPending}>
           {mutation.isPending ? 'Сохранение…' : 'Сохранить объект'}

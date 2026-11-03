@@ -1,10 +1,12 @@
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import type { Task } from '@/entities/task';
 import { useProfiles } from '@/entities/session';
 import { rpc } from '@/shared/api/client';
 import { useAction } from '@/shared/lib/use-action';
+import { isVersionConflict } from '@/shared/lib/utils';
 import {
   Button,
   Field,
@@ -34,6 +36,7 @@ export function TaskForm({
   objectId: string;
   onDone: () => void;
 }) {
+  const [editVersion] = useState(task?.version ?? 1);
   const profiles = useProfiles();
   const {
     register,
@@ -52,7 +55,7 @@ export function TaskForm({
     await rpc(
       task ? 'update_task' : 'create_task',
       task
-        ? { ...args, p_id: task.id, p_version: task.version }
+        ? { ...args, p_id: task.id, p_version: editVersion }
         : { ...args, p_object_id: objectId },
     );
   }, onDone);
@@ -117,6 +120,12 @@ export function TaskForm({
         </Select>
       </Field>
       {mutation.error && <ErrorNotice error={mutation.error} />}
+      {isVersionConflict(mutation.error) && (
+        <p className="text-sm text-muted-foreground">
+          Ваши правки сохранены в форме. Скопируйте их при необходимости, затем
+          закройте форму и откройте снова для загрузки актуальных данных.
+        </p>
+      )}
       <div className="flex gap-3">
         <Button disabled={mutation.isPending}>
           {mutation.isPending ? 'Сохранение…' : 'Сохранить задачу'}
