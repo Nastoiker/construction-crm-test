@@ -8,7 +8,7 @@ export function required(name: string) {
   return value;
 }
 export async function signIn(page: Page, account: Account) {
-  await page.goto('/login');
+  await page.goto('login');
   await page
     .getByLabel('Email', { exact: true })
     .fill(required(`${account}_EMAIL`));

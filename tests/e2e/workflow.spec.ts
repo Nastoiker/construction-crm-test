@@ -5,7 +5,7 @@ import { createClient } from '@supabase/supabase-js';
 test('unauthenticated routes redirect; login validation and wrong password', async ({
   page,
 }) => {
-  await page.goto('/objects');
+  await page.goto('objects');
   await expect(page).toHaveURL(/\/login$/);
   await page.getByRole('button', { name: 'Войти', exact: true }).click();
   await expect(page.getByText('Введите корректный email')).toBeVisible();

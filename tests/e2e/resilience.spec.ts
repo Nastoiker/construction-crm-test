@@ -30,7 +30,7 @@ test('stale task transition is rejected, refreshed, and does not duplicate histo
   expect(error).toBeNull();
   try {
     await signIn(page, 'EXECUTOR');
-    await page.goto(`/tasks/${id}`);
+    await page.goto(`tasks/${id}`);
     await expect(
       page.getByRole('button', { name: 'Взять в работу' }),
     ).toBeVisible();
@@ -64,7 +64,7 @@ test('stale task transition is rejected, refreshed, and does not duplicate histo
 test('login, objects and task views have no serious accessibility issues', async ({
   page,
 }) => {
-  await page.goto('/login');
+  await page.goto('login');
   let audit = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
     .analyze();
@@ -124,7 +124,7 @@ test('background refresh preserves draft and cannot bypass optimistic edit versi
   try {
     await page.clock.install();
     await signIn(page, 'MANAGER');
-    await page.goto(`/tasks/${id}`);
+    await page.goto(`tasks/${id}`);
     await page.getByRole('button', { name: 'Редактировать' }).click();
     await page.getByLabel('Название задачи').fill('Мой несохранённый черновик');
     expect(
