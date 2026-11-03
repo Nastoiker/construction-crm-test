@@ -10,6 +10,7 @@ import {
   statusLabels,
 } from '@/entities/task';
 import { useProfile, useProfiles } from '@/entities/session';
+import { useObject } from '@/entities/object';
 import { rpc } from '@/shared/api/client';
 import { formatDate } from '@/shared/lib/utils';
 import { useAction } from '@/shared/lib/use-action';
@@ -25,6 +26,7 @@ export function TaskDetailsPage() {
   const { id = '' } = useParams();
   const { data: profile } = useProfile();
   const task = useTask(id, profile!.id);
+  const object = useObject(task.data?.object_id ?? '', profile!.id);
   const history = useTaskHistory(id, profile!.id);
   const profiles = useProfiles();
   const [editing, setEditing] = useState(false);
@@ -97,6 +99,17 @@ export function TaskDetailsPage() {
             </p>
           </div>
           <dl className="grid gap-5 border-y py-5 sm:grid-cols-2">
+            <div>
+              <dt className="meta-label">Объект</dt>
+              <dd className="mt-1 text-sm">
+                <Link
+                  className="text-primary hover:underline"
+                  to={`/objects/${current.object_id}`}
+                >
+                  {object.data?.name ?? 'Открыть объект'}
+                </Link>
+              </dd>
+            </div>
             <div>
               <dt className="meta-label">Исполнитель</dt>
               <dd className="mt-1 text-sm font-medium">

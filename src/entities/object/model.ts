@@ -27,6 +27,7 @@ export function useObjects(userId: string) {
 export function useObject(id: string, userId: string) {
   return useQuery({
     queryKey: ['objects', userId, id],
+    enabled: Boolean(id),
     queryFn: async () => {
       const { data, error } = await supabase
         .from('objects')
