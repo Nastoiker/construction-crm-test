@@ -1,0 +1,71 @@
+@import 'tailwindcss';
+
+@theme inline {
+  --color-background: #f6f6f8;
+  --color-foreground: #242429;
+  --color-primary: #5c4ed5;
+  --color-primary-foreground: #fff;
+  --color-muted: #f3f3f6;
+  --color-muted-foreground: #65656e;
+  --color-border: #e4e4e9;
+  --color-input: #d5d5dd;
+  --color-ring: #5c4ed5;
+  --color-destructive: #b33f3f;
+  --font-sans: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+}
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  body {
+    margin: 0;
+    background: var(--color-background);
+    color: var(--color-foreground);
+    -webkit-font-smoothing: antialiased;
+  }
+  button:not(:disabled),
+  a {
+    cursor: pointer;
+  }
+  h1 {
+    overflow-wrap: anywhere;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 3px;
+  }
+}
+@layer components {
+  .panel {
+    @apply rounded-lg border border-border bg-white p-5 sm:p-6;
+  }
+  .page-heading {
+    @apply mb-8 flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center;
+  }
+  .page-heading h1 {
+    @apply text-[28px] font-semibold tracking-tight;
+  }
+  .eyebrow {
+    @apply mb-2 text-xs text-muted-foreground;
+  }
+  .subtitle {
+    @apply mt-2 text-sm leading-6 text-muted-foreground;
+  }
+  .back-link {
+    @apply mb-7 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary;
+  }
+  .section-title {
+    @apply text-base font-semibold;
+  }
+  .meta-label {
+    @apply text-xs text-muted-foreground;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
