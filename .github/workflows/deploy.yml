@@ -42,8 +42,8 @@ jobs:
           SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
           SUPABASE_PROJECT_REF: ${{ vars.SUPABASE_PROJECT_REF }}
         run: |
-          npx supabase link --project-ref "$SUPABASE_PROJECT_REF"
-          npx supabase db push
+          npx supabase link --project-ref "$SUPABASE_PROJECT_REF" --yes
+          npx supabase db push --remote --yes
           node scripts/configure-cloud-auth.mjs
       - name: Build frontend
         env:
