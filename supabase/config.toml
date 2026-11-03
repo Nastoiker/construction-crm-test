@@ -27,6 +27,9 @@ additional_redirect_urls = ["http://127.0.0.1:4173"]
 enable_signup = false
 enable_anonymous_sign_ins = false
 minimum_password_length = 12
+jwt_expiry = 900
+enable_refresh_token_rotation = true
+refresh_token_reuse_interval = 10
 
 [auth.email]
 enabled = true

@@ -1,0 +1,73 @@
+[
+  {
+    "startedAt": "2026-11-03T11:49:47.951Z",
+    "environment": "local",
+    "checks": [
+      {
+        "name": "Fresh tokens have a 900-second lifetime and a session id",
+        "passed": true
+      },
+      {
+        "name": "Unsigned and signature-tampered JWTs are rejected",
+        "passed": true
+      },
+      {
+        "name": "Correctly signed expired JWT is rejected for reads and writes",
+        "passed": true
+      },
+      {
+        "name": "SQL metacharacters remain literal text through RPC and REST equality filters",
+        "passed": true
+      },
+      {
+        "name": "Injection into a typed UUID argument is rejected without changing data",
+        "passed": true
+      },
+      {
+        "name": "Metadata role spoofing cannot grant manager privileges",
+        "passed": true
+      },
+      {
+        "name": "Refresh rotates tokens; logout invalidates the refresh token for that session",
+        "passed": true
+      }
+    ],
+    "passed": true,
+    "cleanup": true,
+    "finishedAt": "2026-11-03T11:49:48.493Z"
+  },
+  {
+    "startedAt": "2026-11-03T11:49:27.236Z",
+    "environment": "cloud",
+    "checks": [
+      {
+        "name": "Fresh tokens have a 900-second lifetime and a session id",
+        "passed": true
+      },
+      {
+        "name": "Unsigned and signature-tampered JWTs are rejected",
+        "passed": true
+      },
+      {
+        "name": "SQL metacharacters remain literal text through RPC and REST equality filters",
+        "passed": true
+      },
+      {
+        "name": "Injection into a typed UUID argument is rejected without changing data",
+        "passed": true
+      },
+      {
+        "name": "Metadata role spoofing cannot grant manager privileges",
+        "passed": true
+      },
+      {
+        "name": "Refresh rotates tokens; logout invalidates the refresh token for that session",
+        "passed": true
+      }
+    ],
+    "expiryVerification": "Cloud: verified issued TTL; correctly signed expired-token rejection tested only on local Supabase.",
+    "passed": true,
+    "cleanup": true,
+    "finishedAt": "2026-11-03T11:49:31.903Z"
+  }
+]

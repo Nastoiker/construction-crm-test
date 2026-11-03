@@ -9,7 +9,14 @@ export const isConfigured = Boolean(
 export const supabase = createClient<Database>(
   url || 'http://127.0.0.1:54321',
   key || 'configuration-required',
-  { db: { retry: false } },
+  {
+    db: { retry: false },
+    auth: {
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: false,
+    },
+  },
 );
 
 type Functions = Database['public']['Functions'];

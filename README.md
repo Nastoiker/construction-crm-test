@@ -29,6 +29,7 @@ npm run check                 # ESLint, Prettier, TypeScript, build, unit, SQL s
 npx playwright install chromium
 npm run test:e2e              # настоящий локальный Supabase + Chromium + axe
 npm run test:load             # ограниченная локальная HTTP-нагрузка
+npm run test:security         # JWT, refresh, SQLi и подмена роли через реальный API
 npm audit --omit=dev
 ```
 
@@ -68,7 +69,7 @@ ESLint запрещает импорт из вышележащих FSD-слоё�
 
 Материалы сдачи: [объяснение руководителю](docs/for-manager.md), [решения](docs/decisions.md), [dev review](docs/dev-review.md), [QA review](docs/qa-review.md).
 
-Дополнительные проверки: [нагрузочные замеры и методика](docs/performance-review.md), [UI/UX review и исправления](docs/ui-ux-review.md). Нагрузочный скрипт использует временные данные и обычные тестовые аккаунты; облачный запуск требует явного `--remote`. В Playwright теперь 10 сценариев, включая регрессии узких экранов и доступности форм.
+Дополнительные проверки: [нагрузочные замеры и методика](docs/performance-review.md), [UI/UX review и исправления](docs/ui-ux-review.md), [security review](docs/security-review.md). Нагрузочный скрипт использует временные данные и обычные тестовые аккаунты; облачный запуск требует явного `--remote`. В Playwright теперь 12 сценариев, включая узкие экраны, доступность форм, refresh-сессии и безопасный вывод HTML. Новые access JWT действуют 15 минут; сессия автоматически продлевается действительным refresh-токеном.
 
 Для проверки опубликованной версии задайте `E2E_BASE_URL` (с завершающим `/`) и `E2E_ENV_FILE` (путь к приватному файлу с `SUPABASE_URL`, `SUPABASE_ANON_KEY` и тестовыми аккаунтами), затем выполните `npm run test:e2e`. Тесты создают и удаляют собственные временные объекты и задачи. Пароли демо передаются отдельно.
 

@@ -17,6 +17,7 @@
     "test:db": "node --test tests/database/security.test.mjs",
     "test:e2e": "playwright test",
     "test:load": "node scripts/load-test.mjs",
+    "test:security": "node tests/security/api-security.mjs",
     "check": "npm run lint && npm run format:check && npm run build && npm test && npm run test:db",
     "seed": "node --env-file=.env.seed scripts/seed.mjs"
   },
