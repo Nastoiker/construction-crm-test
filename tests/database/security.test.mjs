@@ -1,6 +1,6 @@
 import { before, after, beforeEach, afterEach, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import { PGlite } from '@electric-sql/pglite';
 
 // Real PostgreSQL engine in WASM. Only the Supabase Auth boundary is stubbed.
@@ -24,15 +24,12 @@ before(async () => {
     grant usage on schema auth, public to anon, authenticated, service_role;
     grant execute on function auth.uid() to public;
   `);
-  await db.exec(
-    await readFile(
-      new URL(
-        '../../supabase/migrations/202611030001_crm.sql',
-        import.meta.url,
-      ),
-      'utf8',
-    ),
-  );
+  const migrations = new URL('../../supabase/migrations/', import.meta.url);
+  for (const file of (await readdir(migrations))
+    .filter((name) => name.endsWith('.sql'))
+    .sort()) {
+    await db.exec(await readFile(new URL(file, migrations), 'utf8'));
+  }
   await db.exec(`
     insert into auth.users values ('${manager}'), ('${alice}'), ('${bob}'), ('${secondManager}');
     insert into public.profiles values ('${manager}', 'Manager', 'manager'), ('${alice}', 'Alice', 'executor'), ('${bob}', 'Bob', 'executor'), ('${secondManager}', 'Manager 2', 'manager');
@@ -216,7 +213,7 @@ test('rework requires a nonblank comment and invalid input is atomic', async () 
     taskId,
   ]);
   await asUser(manager);
-  for (const comment of [null, '', '   ', 'a'.repeat(2001)]) {
+  for (const comment of [null, '', '   ', '\t\n\r', 'a'.repeat(2001)]) {
     await denied('select public.transition_task($1,$2,1,$3)', [
       taskId,
       'rework',
